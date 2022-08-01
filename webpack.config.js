@@ -1,18 +1,18 @@
-const path = require('path')
-const webpack = require('webpack')
-const cmd = require('commander')
-const outputdir = path.resolve(__dirname, 'dist')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require('path');
+const webpack = require('webpack');
+const cmd = require('commander');
+const outputdir = path.resolve(__dirname, 'dist');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 cmd
   .option('--mode [mode]', '', process.env.NODE_ENV || 'development')
   .option('--debug')
-  .parse(process.argv)
+  .parse(process.argv);
 
-const mode = cmd.mode
+const mode = 'production';
 
 const opts = {
-  entry: {app: './src/app.tsx'},
+  entry: { app: './src/app.tsx' },
   output: {
     filename: '[name]-[chunkhash].js',
     path: outputdir,
@@ -45,12 +45,13 @@ const opts = {
     ],
   },
   devServer: {
-    contentBase: outputdir,
+    static: outputdir,
     open: true,
-    overlay: {
-      errors: true,
-    },
     historyApiFallback: true,
+    bonjour: false,
+    client: {
+      overlay: false
+    }
     // host: '0.0.0.0'
   },
   devtool: mode === 'production' ? 'source-map' : 'source-map',
@@ -65,8 +66,8 @@ const opts = {
   resolveLoader: {
     modules: ['node_modules'],
   },
-}
+};
 
-if (cmd.debug) console.log(opts) // eslint-disable-line no-console
+if (cmd.debug) console.log(opts); // eslint-disable-line no-console
 
-module.exports = opts
+module.exports = opts;

@@ -1,5 +1,5 @@
 import React from 'react'
-import useImage, {useImageProps} from './useImage'
+import useImage, { useImageProps } from './useImage'
 import imagePromiseFactory from './imagePromiseFactory'
 
 export type ImgProps = Omit<
@@ -33,11 +33,12 @@ export default function Img({
   imgPromise,
   crossorigin,
   useSuspense = false,
+  loadTimeout = null,
   ...imgProps // anything else will be passed to the <img> element
 }: ImgProps): JSX.Element | null {
   imgPromise =
-    imgPromise || imagePromiseFactory({decode, crossOrigin: crossorigin})
-  const {src, isLoading} = useImage({
+    imgPromise || imagePromiseFactory({ decode, crossOrigin: crossorigin, loadTimeout })
+  const { src, isLoading } = useImage({
     srcList,
     imgPromise,
     useSuspense,
